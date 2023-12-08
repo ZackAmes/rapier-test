@@ -1,9 +1,7 @@
 import { useComponentValue, useSync } from "@dojoengine/react";
 import { Entity } from "@dojoengine/recs";
 import { useEffect, useState } from "react";
-import "./App.css";
 import { useDojo } from "./DojoContext";
-import { Direction } from "./utils";
 import { Suspense } from "react";
 
 import { Box, Torus } from "@react-three/drei";
@@ -13,12 +11,11 @@ import { Physics, RigidBody, CuboidCollider } from "@react-three/rapier";
 function App() {
     const {
         setup: {
-            systemCalls,
-            components: { Moves, Position },
+            systemCalls: { spawn, setSecret},
+            components: { Secret },
             network: {
                 contractComponents: {
-                    Moves: MovesContract,
-                    Position: PositionContract,
+                    Secret: SecretContract
                 },
                 torii_client,
             },
@@ -44,12 +41,10 @@ function App() {
     const entityId = account.address.toString() as Entity;
 
     // get current component values
-    const position = useComponentValue(Position, entityId);
-    const moves = useComponentValue(Moves, entityId);
+    const secret = useComponentValue(Secret, entityId);
 
     // sync from remote torii
-    useSync(torii_client, MovesContract, [entityId]);
-    useSync(torii_client, PositionContract, [entityId]);
+    useSync(torii_client, SecretContract, [entityId]);
 
     const handleRestoreBurners = async () => {
         try {
@@ -77,14 +72,21 @@ function App() {
         }
     }, [clipboardStatus.message]);
 
+    console.log(secret?.value);
     return (
-        <Canvas>
+        <Canvas camera={{rotation:[-Math.PI/3,0,0], position:[0,10,10] }}>
             <Suspense>
             <Physics debug>
                 <RigidBody colliders={"hull"} restitution={2}>
-                <Torus />
+                    <Torus onClick={() => setSecret(account, 200)}/>
+                    <meshBasicMaterial color = {"rgb(0, " + secret?.value +",0)"}/>
                 </RigidBody>
-    
+
+                <RigidBody colliders={"cuboid"} restitution={0}>
+                    <Box position = {[10,0,0]} onClick={() => spawn}/>
+                    <meshBasicMaterial color="black"/>
+                </RigidBody>
+
                 <CuboidCollider position={[0, -2, 0]} args={[20, 0.5, 20]} />
             </Physics>
             </Suspense>

@@ -3,37 +3,19 @@
 import { defineComponent, Type as RecsType, World } from "@dojoengine/recs";
 
 export function defineContractComponents(world: World) {
-    return {
-        Moves: (() => {
-            return defineComponent(
-                world,
-                {
-                    player: RecsType.BigInt,
-                    remaining: RecsType.Number,
-                    last_direction: RecsType.Number,
-                },
-                {
-                    metadata: {
-                        name: "Moves",
-                        types: ["Direction"],
-                    },
-                }
-            );
-        })(),
-        Position: (() => {
-            return defineComponent(
-                world,
-                {
-                    player: RecsType.BigInt,
-                    vec: { x: RecsType.Number, y: RecsType.Number },
-                },
-                {
-                    metadata: {
-                        name: "Position",
-                        types: ["Vec2"],
-                    },
-                }
-            );
-        })(),
-    };
+  return {
+	  Secret: (() => {
+	    return defineComponent(
+	      world,
+	      { owner: RecsType.BigInt, value: RecsType.Number },
+	      {
+	        metadata: {
+	          name: "Secret",
+	          types: ["contractaddress","u8"],
+	          customTypes: [],
+	        },
+	      }
+	    );
+	  })(),
+  };
 }
