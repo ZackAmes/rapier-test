@@ -75,7 +75,7 @@ function App() {
 
     console.log(secret?.value);
     return (
-        <Canvas camera={{rotation:[-Math.PI/3,0,0], position:[0,10,5] }}>
+        <Canvas style={{height:800, width:800}}camera={{rotation:[-Math.PI/3,0,0], position:[0,20,10] }}>
             <Suspense>
             <Physics debug>
                 <RigidBody colliders={"hull"} restitution={2}>
