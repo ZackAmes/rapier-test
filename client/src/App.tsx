@@ -9,6 +9,10 @@ import { Box, Torus } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Physics, RigidBody, CuboidCollider } from "@react-three/rapier";
 
+import Button from "./components/Button";
+import Burners from "./components/Burners";
+import AccRender from "./components/AccRender";
+
 function App() {
     const {
         setup: {
@@ -75,9 +79,9 @@ function App() {
 
     console.log(secret?.value);
     return (
-        <Canvas style={{height:800, width:800}}camera={{rotation:[-Math.PI/3,0,0], position:[0,20,10] }}>
+        <Canvas style={{height:800, width:800}}camera={{rotation:[0,0,0], position:[0,5,15] }}>
             <Suspense>
-            <Physics debug>
+            <Physics debug gravity={[0,-10,0]}>
                 <RigidBody colliders={"hull"} restitution={2}>
                     <Torus onClick={() => setSecret(account, 200)}/>
                     <meshBasicMaterial color = {"rgb(0, " + secret?.value +",0)"}/>
@@ -88,7 +92,10 @@ function App() {
                     <meshBasicMaterial color="black"/>
                 </RigidBody>
 
-                <CuboidCollider position={[0, -2, 0]} args={[20, 0.5, 20]} />
+                <Button coords= {[5,5,5]} click={() => spawn(account)} label="Spawn" scale={2}/>
+                <Burners coords={[-1,5,0]} create={create} list={list} select={select} clear={clear}/>
+                <CuboidCollider position={[0, -2, 0]} args={[10, .5, 10]} />
+                <AccRender coords={[-1, 8,0]} account={account} click={() => console.log("clicked")}/>
             </Physics>
             </Suspense>
         </Canvas>
