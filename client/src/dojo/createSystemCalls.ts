@@ -13,7 +13,7 @@ export function createSystemCalls(
 ) {
     const spawn = async (signer: Account) => {
         const entityId = signer.address.toString() as Entity;
-
+        console.log("spawning");
 
         try {
             const { transaction_hash } = await execute(
@@ -40,6 +40,7 @@ export function createSystemCalls(
   const setSecret = async (signer: Account, value: number) => {
     const entityId = signer.address.toString() as Entity;
 
+    console.log("setting secret");
     const secretId = uuid();
     Secret.addOverride(secretId, {
       entity: entityId,
