@@ -3,6 +3,7 @@ import { Entity } from "@dojoengine/recs";
 import { useEffect, useState } from "react";
 import { useDojo } from "./DojoContext";
 import { Suspense } from "react";
+import { getEntityIdFromKeys } from "@dojoengine/utils";
 
 import { Box, Torus } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
@@ -38,13 +39,13 @@ function App() {
     });
 
     // entity id we are syncing
-    const entityId = account.address.toString() as Entity;
+    const entityId = getEntityIdFromKeys([BigInt(account.address)]) as Entity;
 
     // get current component values
     const secret = useComponentValue(Secret, entityId);
 
     // sync from remote torii
-    useSync(torii_client, SecretContract, [entityId]);
+    useSync(torii_client, SecretContract, [BigInt(account.address)]);
 
     const handleRestoreBurners = async () => {
         try {
@@ -74,7 +75,7 @@ function App() {
 
     console.log(secret?.value);
     return (
-        <Canvas camera={{rotation:[-Math.PI/3,0,0], position:[0,10,10] }}>
+        <Canvas camera={{rotation:[-Math.PI/3,0,0], position:[0,10,5] }}>
             <Suspense>
             <Physics debug>
                 <RigidBody colliders={"hull"} restitution={2}>
