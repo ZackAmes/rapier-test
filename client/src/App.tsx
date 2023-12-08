@@ -83,7 +83,7 @@ function App() {
                 </RigidBody>
 
                 <RigidBody colliders={"cuboid"} restitution={0}>
-                    <Box scale = {5} position = {[10,0,0]} onClick={() => spawn}/>
+                    <Box scale = {5} position = {[10,0,0]} onClick={() => spawn(account)}/>
                     <meshBasicMaterial color="black"/>
                 </RigidBody>
 
