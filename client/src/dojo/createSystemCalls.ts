@@ -31,9 +31,11 @@ export function createSystemCalls(
                     })
                 )
             );
+            console.log("spawned")
         } catch (e) {
             console.log(e);
         }
+        
     }    
     
     
@@ -48,15 +50,22 @@ export function createSystemCalls(
     });
 
     try {
-      const tx = await execute(signer, "actions", "setSecret", [value]);
-      setComponentsFromEvents(
+      const { transaction_hash } = await execute(
+        signer,
+        "actions",
+        "setSecret",
+        [value]
+    );
+
+    setComponentsFromEvents(
         contractComponents,
         getEvents(
-          await signer.waitForTransaction(tx.transaction_hash, {
-            retryInterval: 100,
-          })
+            await signer.waitForTransaction(transaction_hash, {
+                retryInterval: 100,
+            })
         )
-      );
+    );
+    console.log("secret set")
     } catch (e) {
       console.log(e);
       Secret.removeOverride(secretId);

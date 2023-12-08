@@ -5,7 +5,7 @@ import { useLoader } from '@react-three/fiber';
 import { TextureLoader } from 'three';
 
 interface AccRenderProps {
-    account: any
+    account: Account
     coords: number[]
     click: () => any
 }
