@@ -26,6 +26,17 @@ struct Piece {
 }
 
 #[derive(Model, Drop, Serde)]
+struct Square {
+    #[key]
+    game_id:felt252,
+    #[key]
+    x: u8,
+    #[key]
+    y: u8,
+    piece_id: felt252
+}
+
+#[derive(Model, Drop, Serde)]
 struct Game {
     #[key]
     id: felt252,

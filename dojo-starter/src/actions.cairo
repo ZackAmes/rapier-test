@@ -10,7 +10,7 @@ trait IActions<TContractState> {
 #[dojo::contract]
 mod actions {
     use starknet::{ContractAddress, get_caller_address};
-    use project::models::{Secret, Game, Piece, Player};
+    use project::models::{Secret, Game, Piece, Player, Square};
     use super::IActions;
 
     // declaring custom event struct
@@ -52,10 +52,28 @@ mod actions {
                 (
                     Game {id:game_id, player_one:caller, player_two: caller, ones_turn: true},
                     Player{id:player_id, address: caller },
-                    Piece {id: piece_id_0, owner: caller, location_id: player_id, piece_type: 0},
-                    Piece {id: piece_id_1, owner: caller, location_id: player_id, piece_type: 1},
-                    Piece {id: piece_id_2, owner: caller, location_id: player_id, piece_type: 2},
-                    Secret {owner: caller, value:7}
+
+                    Piece {id: world.uuid().into(), owner: caller, location_id: player_id, piece_type: 1},
+                    Piece {id: world.uuid().into(), owner: caller, location_id: player_id, piece_type: 1},
+                    Piece {id: world.uuid().into(), owner: caller, location_id: player_id, piece_type: 1},
+                    Piece {id: world.uuid().into(), owner: caller, location_id: player_id, piece_type: 1},
+                    Piece {id: world.uuid().into(), owner: caller, location_id: player_id, piece_type: 2},
+                    Piece {id: world.uuid().into(), owner: caller, location_id: player_id, piece_type: 2},
+                    Piece {id: world.uuid().into(), owner: caller, location_id: player_id, piece_type: 2},
+                    Piece {id: world.uuid().into(), owner: caller, location_id: player_id, piece_type: 2},
+
+                    Secret {owner: caller, value:7},
+
+                    Square {game_id, x:0, y:0, piece_id: 0},
+                    Square {game_id, x:1, y:0, piece_id: 0},
+                    Square {game_id, x:2, y:0, piece_id: 0},
+                    Square {game_id, x:0, y:1, piece_id: 0},
+                    Square {game_id, x:1, y:1, piece_id: 0},
+                    Square {game_id, x:2, y:1, piece_id: 0},
+                    Square {game_id, x:0, y:2, piece_id: 0},
+                    Square {game_id, x:1, y:2, piece_id: 0},
+                    Square {game_id, x:2, y:2, piece_id: 0},
+
 
                 )
             );

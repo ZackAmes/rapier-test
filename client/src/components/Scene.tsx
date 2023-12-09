@@ -22,7 +22,7 @@ const Scene: FC<SceneProps> = ({account, setSecret, spawn}) => {
                 </mesh>
             </CuboidCollider>    
 
-            <Piece coords={[0,0,0]} type={0} />
+            <Piece coords={[0,5,5]} type={1} />
             <Button coords= {[5,7,5]} click={() => setSecret(account, 250)} label="SetSecret" scale={1.5}/>
 
             <Button coords= {[5,5,5]} click={() => spawn(account)} label="Spawn" scale={2}/>

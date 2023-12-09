@@ -1,28 +1,21 @@
-import { useComponentValue, useSync } from "@dojoengine/react";
+import { useComponentValue} from "@dojoengine/react";
 import { Entity } from "@dojoengine/recs";
 import { useDojo } from "./DojoContext";
 import { Suspense } from "react";
 import { getEntityIdFromKeys } from "@dojoengine/utils";
 
 import { Canvas } from "@react-three/fiber";
-import { Physics, CuboidCollider } from "@react-three/rapier";
+import { Physics} from "@react-three/rapier";
 
-import Button from "./components/Button";
 import Burners from "./components/Burners";
 import AccRender from "./components/AccRender";
-import Piece from "./components/Piece";
 import Scene from "./components/Scene";
 function App() {
     const {
         setup: {
             systemCalls: { spawn, setSecret},
-            components: { Secret },
-            network: {
-                contractComponents: {
-                    Secret: SecretContract
-                },
-                torii_client,
-            },
+            components: { Secret, Piece, Player, Game, Square },
+            network
         },
         account: {
             create,
@@ -52,7 +45,7 @@ function App() {
                 
                 <Burners coords={[0,15,20]} create={create} list={list} select={select} clear={clear}/>
                 
-                <AccRender coords={[-10, 15,15]} account={account} click={() => console.log("clicked")}/>
+                <AccRender coords={[-10, 15,15]} account={account} click={() => console.log(account.address)}/>
 
             </Physics>
             </Suspense>
