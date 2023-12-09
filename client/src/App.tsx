@@ -1,17 +1,17 @@
 import { useComponentValue, useSync } from "@dojoengine/react";
 import { Entity } from "@dojoengine/recs";
-import { useEffect, useState } from "react";
 import { useDojo } from "./DojoContext";
 import { Suspense } from "react";
 import { getEntityIdFromKeys } from "@dojoengine/utils";
 
-import { Box, Torus } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { Physics, RigidBody, CuboidCollider } from "@react-three/rapier";
+import { Physics, CuboidCollider } from "@react-three/rapier";
 
 import Button from "./components/Button";
 import Burners from "./components/Burners";
 import AccRender from "./components/AccRender";
+import Piece from "./components/Piece";
+import Scene from "./components/Scene";
 function App() {
     const {
         setup: {
@@ -48,31 +48,12 @@ function App() {
         <Canvas style={{height:800, width:800}}camera={{rotation:[0,0,0], position:[0,10,30] }}>
             <Suspense>
             <Physics gravity={[0,-10,0]}>
-                <RigidBody position={[-2,0,0]} colliders={"hull"} restitution={1.5}>
-                    <mesh onClick={() => setSecret(account, 200)}>
-                        <cylinderGeometry/>
-                        <meshBasicMaterial color = {"rgb(0, " + secret?.value +",0)"}/>
-                    </mesh>
-                </RigidBody>
-
-                <RigidBody position={[10,0,0]} colliders={"cuboid"} restitution={0}>
-                    <mesh onClick={() => spawn(account)}>
-                        <boxGeometry/>
-                        <meshBasicMaterial color="black"/>
-                    </mesh>
-                </RigidBody>
-                <axesHelper/>
-                <Button coords= {[5,7,5]} click={() => setSecret(account, 250)} label="SetSecret" scale={1.5}/>
-
-                <Button coords= {[5,5,5]} click={() => spawn(account)} label="Spawn" scale={2}/>
+                <Scene account={account} setSecret={setSecret} spawn={spawn}/>
+                
                 <Burners coords={[0,15,20]} create={create} list={list} select={select} clear={clear}/>
-                <CuboidCollider position={[0, -2, 0]} args={[15, .5, 15]} >
-                    <mesh position={[0,-2,0]}>
-                        <boxGeometry args={[30,1,30]}/>
-                        <meshBasicMaterial color="purple"/>
-                    </mesh>
-                </CuboidCollider>    
+                
                 <AccRender coords={[-10, 15,15]} account={account} click={() => console.log("clicked")}/>
+
             </Physics>
             </Suspense>
         </Canvas>
