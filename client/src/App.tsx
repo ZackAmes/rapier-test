@@ -41,11 +41,11 @@ function App() {
     const secret = useComponentValue(Secret, entityId);
 
     // sync from remote torii
-    useSync(torii_client, SecretContract, [BigInt(account.address)]);
+    //useSync(torii_client, SecretContract, [BigInt(account.address)]);
 
     return(
         <>
-        <Canvas style={{height:800, width:800}}camera={{rotation:[0,0,0], position:[0,5,15] }}>
+        <Canvas style={{height:800, width:800}}camera={{rotation:[0,0,0], position:[0,10,30] }}>
             <Suspense>
             <Physics gravity={[0,-10,0]}>
                 <RigidBody position={[-2,0,0]} colliders={"hull"} restitution={1.5}>
@@ -65,14 +65,14 @@ function App() {
                 <Button coords= {[5,7,5]} click={() => setSecret(account, 250)} label="SetSecret" scale={1.5}/>
 
                 <Button coords= {[5,5,5]} click={() => spawn(account)} label="Spawn" scale={2}/>
-                <Burners coords={[-1,5,0]} create={create} list={list} select={select} clear={clear}/>
+                <Burners coords={[0,15,20]} create={create} list={list} select={select} clear={clear}/>
                 <CuboidCollider position={[0, -2, 0]} args={[15, .5, 15]} >
                     <mesh position={[0,-2,0]}>
                         <boxGeometry args={[30,1,30]}/>
                         <meshBasicMaterial color="purple"/>
                     </mesh>
                 </CuboidCollider>    
-                <AccRender coords={[-1, 8,0]} account={account} click={() => console.log("clicked")}/>
+                <AccRender coords={[-10, 15,15]} account={account} click={() => console.log("clicked")}/>
             </Physics>
             </Suspense>
         </Canvas>
