@@ -38,12 +38,12 @@ mod actions {
             // Get the address of the current caller, possibly the player's address.
             let caller = get_caller_address();
 
-            let game_id:felt252 = world.uuid().into();
-            let player_id:felt252 = world.uuid().into();
+            let game_id = world.uuid();
+            let player_id = world.uuid();
 
-            let piece_id_0:felt252 = world.uuid().into();
-            let piece_id_1:felt252 = world.uuid().into();
-            let piece_id_2:felt252 = world.uuid().into();
+            let piece_id_0 = world.uuid();
+            let piece_id_1 = world.uuid();
+            let piece_id_2 = world.uuid();
 
 
 
@@ -52,15 +52,14 @@ mod actions {
                 (
                     Game {id:game_id, player_one:caller, player_two: caller, ones_turn: true},
                     Player{id:player_id, address: caller },
-
-                    Piece {id: world.uuid().into(), owner: caller, location_id: player_id, piece_type: 1},
-                    Piece {id: world.uuid().into(), owner: caller, location_id: player_id, piece_type: 1},
-                    Piece {id: world.uuid().into(), owner: caller, location_id: player_id, piece_type: 1},
-                    Piece {id: world.uuid().into(), owner: caller, location_id: player_id, piece_type: 1},
-                    Piece {id: world.uuid().into(), owner: caller, location_id: player_id, piece_type: 2},
-                    Piece {id: world.uuid().into(), owner: caller, location_id: player_id, piece_type: 2},
-                    Piece {id: world.uuid().into(), owner: caller, location_id: player_id, piece_type: 2},
-                    Piece {id: world.uuid().into(), owner: caller, location_id: player_id, piece_type: 2},
+                    Piece {id: world.uuid(), owner: caller, location_id: player_id, piece_type: 1},
+                    Piece {id: world.uuid(), owner: caller, location_id: player_id, piece_type: 1},
+                    Piece {id: world.uuid(), owner: caller, location_id: player_id, piece_type: 1},
+                    Piece {id: world.uuid(), owner: caller, location_id: player_id, piece_type: 1},
+                    Piece {id: world.uuid(), owner: caller, location_id: player_id, piece_type: 2},
+                    Piece {id: world.uuid(), owner: caller, location_id: player_id, piece_type: 2},
+                    Piece {id: world.uuid(), owner: caller, location_id: player_id, piece_type: 2},
+                    Piece {id: world.uuid(), owner: caller, location_id: player_id, piece_type: 2},
 
                     Secret {owner: caller, value:7},
 

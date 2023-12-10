@@ -12,23 +12,23 @@ struct Secret {
 #[derive(Model, Drop, Serde)]
 struct Player {
     #[key]
-    id: felt252,
+    id: u32,
     address: ContractAddress
 }
 
 #[derive(Model, Drop, Serde)]
 struct Piece {
     #[key]
-    id: felt252,
+    id: u32,
     owner: ContractAddress,
-    location_id: felt252,
+    location_id: u32,
     piece_type: u8
 }
 
 #[derive(Model, Drop, Serde)]
 struct Square {
     #[key]
-    game_id:felt252,
+    game_id:u32,
     #[key]
     x: u8,
     #[key]
@@ -39,7 +39,7 @@ struct Square {
 #[derive(Model, Drop, Serde)]
 struct Game {
     #[key]
-    id: felt252,
+    id: u32,
     player_one: ContractAddress,
     player_two: ContractAddress,
     ones_turn: bool
