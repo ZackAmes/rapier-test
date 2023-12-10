@@ -40,7 +40,7 @@ function App() {
         <>
         <Canvas style={{height:800, width:800}}camera={{rotation:[0,0,0], position:[0,10,30] }}>
             <Suspense>
-            <Physics gravity={[0,-10,0]}>
+            <Physics debug gravity={[0,-10,0]}>
                 <Scene account={account} setSecret={setSecret} spawn={spawn}/>
                 
                 <Burners coords={[0,15,20]} create={create} list={list} select={select} clear={clear}/>

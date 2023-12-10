@@ -10,9 +10,9 @@ interface SquareProps {
 const Square: FC<SquareProps> = ({coords, state}) => {
     return (
         <>
-            <CuboidCollider position={[coords[0], coords[1]-2, coords[2]]} args={[15, .5, 15]} >
+            <CuboidCollider position={[coords[0], coords[1]-2, coords[2]]} args={[2.5, .5, 2.5]} >
                     <mesh >
-                        <boxGeometry/>
+                        <boxGeometry args={[2.5,.5,2.5]}/>
                         <meshBasicMaterial color="purple"/>
                     </mesh>
             </CuboidCollider>    

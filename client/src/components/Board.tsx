@@ -12,9 +12,9 @@ const Board: FC<BoardProps> = ({coords, squareStates=defaultState}) => {
     let squares = squareStates.flat().map( (square, index) => {
 
         let drawX = coords[0] + (index % 3) * 5
-        let drawY = coords[1] + (Math.floor(index/3)) * 5
+        let drawZ = coords[2] + (Math.floor(index/3)) * 5
         return(
-            <Square coords={[drawX, drawY, coords[2]]} state={square}/>
+            <Square coords={[drawX, coords[1], drawZ]} state={square}/>
         )
 
     });

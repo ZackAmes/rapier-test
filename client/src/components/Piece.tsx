@@ -12,7 +12,7 @@ const getColor= (type:number) => {
 
 const Piece: FC<PieceProps> = ({coords, type}) =>  {
     return(
-        <RigidBody restitution={1.75} mass={5} colliders={"hull"} position={[coords[0], coords[1], coords[2]]}>
+        <RigidBody restitution={1.5} mass={5} colliders={"hull"} position={[coords[0], coords[1], coords[2]]}>
             <mesh>
                 <cylinderGeometry />
                 <meshBasicMaterial color={getColor(type)}/>
