@@ -18,6 +18,7 @@ const Burners: FC<BurnersProps> = ({create, clear, select, list, isDeploying, co
             <AccRender account={account} coords={[coords[0], coords[1], coords[2]-index]} click={() => select(account.address)}/>
         )
     })
+    
 
     return (
         <>

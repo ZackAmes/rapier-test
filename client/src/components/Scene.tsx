@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { CuboidCollider } from "@react-three/rapier";
 import Piece from "./Piece";
 import Button from "./Button";
 import { Account } from "starknet";

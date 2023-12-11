@@ -1,9 +1,13 @@
+use starknet::{ContractAddress};
 
 // define the interface
 #[starknet::interface]
 trait IActions<TContractState> {
     fn spawn(self: @TContractState);
-    fn setSecret(self: @TContractState, value: u8);
+    fn set_secret(self: @TContractState, value: u8);
+    fn challenge(self: @TContractState, opp: ContractAddress, game_type: u8);
+    fn tic_tac_toe_challenge(self: @TContractState, opp:ContractAddress);
+    fn create_pieces(self: @TContractState);
 }
 
 // dojo decorator
@@ -38,48 +42,27 @@ mod actions {
             // Get the address of the current caller, possibly the player's address.
             let caller = get_caller_address();
 
-            let game_id = world.uuid();
             let player_id = world.uuid();
-
-            let piece_id_0 = world.uuid();
-            let piece_id_1 = world.uuid();
-            let piece_id_2 = world.uuid();
-
-
 
             set!(
                 world,
                 (
-                    Game {id:game_id, player_one:caller, player_two: caller, ones_turn: true},
                     Player{id:player_id, address: caller },
-                    Piece {id: world.uuid(), owner: caller, location_id: player_id, piece_type: 1},
-                    Piece {id: world.uuid(), owner: caller, location_id: player_id, piece_type: 1},
-                    Piece {id: world.uuid(), owner: caller, location_id: player_id, piece_type: 1},
-                    Piece {id: world.uuid(), owner: caller, location_id: player_id, piece_type: 1},
-                    Piece {id: world.uuid(), owner: caller, location_id: player_id, piece_type: 2},
-                    Piece {id: world.uuid(), owner: caller, location_id: player_id, piece_type: 2},
-                    Piece {id: world.uuid(), owner: caller, location_id: player_id, piece_type: 2},
-                    Piece {id: world.uuid(), owner: caller, location_id: player_id, piece_type: 2},
 
                     Secret {owner: caller, value:7},
-
-                    Square {game_id, x:0, y:0, piece_id: 0},
-                    Square {game_id, x:1, y:0, piece_id: 0},
-                    Square {game_id, x:2, y:0, piece_id: 0},
-                    Square {game_id, x:0, y:1, piece_id: 0},
-                    Square {game_id, x:1, y:1, piece_id: 0},
-                    Square {game_id, x:2, y:1, piece_id: 0},
-                    Square {game_id, x:0, y:2, piece_id: 0},
-                    Square {game_id, x:1, y:2, piece_id: 0},
-                    Square {game_id, x:2, y:2, piece_id: 0},
 
 
                 )
             );
+
+            self.challenge(caller, 0);
+            self.create_pieces();
+
+            
         }
 
         // Implementation of the move function for the ContractState struct.
-        fn setSecret(self: @ContractState, value: u8) {
+        fn set_secret(self: @ContractState, value: u8) {
             // Access the world dispatcher for reading.
             let world = self.world_dispatcher.read();
 
@@ -91,5 +74,65 @@ mod actions {
             // Emit an event to the world to notify about the player's move.
             emit!(world, Updated { player:caller, value });
         }
+
+        fn challenge(self: @ContractState, opp: ContractAddress, game_type: u8){
+            let world = self.world_dispatcher.read();
+
+            let caller = get_caller_address();
+
+            assert(game_type == 0, 'only type 0 supported');
+            self.tic_tac_toe_challenge(opp);
+
+        }
+
+        fn tic_tac_toe_challenge(self: @ContractState, opp:ContractAddress){
+            let world = self.world_dispatcher.read();
+
+            let caller = get_caller_address();
+
+            let game_id = world.uuid();
+
+            set!(world,
+                (
+                    Game { game_id, game_type:0, player_one:caller, player_two:opp, ones_turn:true},
+
+                    Square {game_id, x:0, y:0, piece_id: 0},
+                    Square {game_id, x:1, y:0, piece_id: 0},
+                    Square {game_id, x:2, y:0, piece_id: 0},
+                    Square {game_id, x:0, y:1, piece_id: 0},
+                    Square {game_id, x:1, y:1, piece_id: 0},
+                    Square {game_id, x:2, y:1, piece_id: 0},
+                    Square {game_id, x:0, y:2, piece_id: 0},
+                    Square {game_id, x:1, y:2, piece_id: 0},
+                    Square {game_id, x:2, y:2, piece_id: 0},
+                )
+            
+            )
+
+        }
+
+        fn create_pieces(self: @ContractState){
+            let world = self.world_dispatcher.read();
+
+            let caller = get_caller_address();
+
+            let caller_id = get!(world, caller, (Player)).id;
+
+            set!(world,
+                (
+                    Piece {id: world.uuid(), owner: caller, location_id: caller_id, piece_type: 1},
+                    Piece {id: world.uuid(), owner: caller, location_id: caller_id, piece_type: 1},
+                    Piece {id: world.uuid(), owner: caller, location_id: caller_id, piece_type: 1},
+                    Piece {id: world.uuid(), owner: caller, location_id: caller_id, piece_type: 1},
+                    Piece {id: world.uuid(), owner: caller, location_id: caller_id, piece_type: 2},
+                    Piece {id: world.uuid(), owner: caller, location_id: caller_id, piece_type: 2},
+                    Piece {id: world.uuid(), owner: caller, location_id: caller_id, piece_type: 2},
+                    Piece {id: world.uuid(), owner: caller, location_id: caller_id, piece_type: 2}
+                )
+            )    
+
+        }
+
+
     }
 }
