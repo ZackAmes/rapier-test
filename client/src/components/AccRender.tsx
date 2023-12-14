@@ -2,7 +2,7 @@ import {FC} from 'react';
 import { blo } from 'blo';
 import {Account} from 'starknet';
 import { useLoader } from '@react-three/fiber';
-import { TextureLoader } from 'three';
+import {TextureLoader} from 'three';
 
 interface AccRenderProps {
     account: Account

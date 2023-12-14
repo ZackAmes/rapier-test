@@ -1,9 +1,13 @@
 import { SetupNetworkResult } from "./setupNetwork";
-import { Account, num } from "starknet";
+import { Account } from "starknet";
 import { Entity, getComponentValue } from "@dojoengine/recs";
+import { uuid } from "@latticexyz/utils";
 import { ClientComponents } from "./createClientComponents";
-import { getEvents, setComponentsFromEvents } from "@dojoengine/utils";
-import {uuid} from "@latticexyz/utils";
+import {
+    getEntityIdFromKeys,
+    getEvents,
+    setComponentsFromEvents,
+} from "@dojoengine/utils";
 
 export type SystemCalls = ReturnType<typeof createSystemCalls>;
 
@@ -12,13 +16,14 @@ export function createSystemCalls(
     { Secret }: ClientComponents
 ) {
     const spawn = async (signer: Account) => {
-        const entityId = signer.address.toString() as Entity;
-        console.log("spawning");
+        const entityId = getEntityIdFromKeys([
+            BigInt(signer.address),
+        ]) as Entity;
 
         try {
             const { transaction_hash } = await execute(
                 signer,
-                "actions",
+                "dojo_examples::actions::actions",
                 "spawn",
                 []
             );
@@ -31,53 +36,42 @@ export function createSystemCalls(
                     })
                 )
             );
-            console.log("spawned")
         } catch (e) {
             console.log(e);
-        }
+        } 
+    };
+
+    const set_secret = async (signer: Account, value: number) => {
+        const entityId = getEntityIdFromKeys([
+            BigInt(signer.address),
+        ]) as Entity;
+
         
-    }    
-    
-    
-  const setSecret = async (signer: Account, value: number) => {
-    const entityId = signer.address.toString() as Entity;
 
-    console.log("setting secret");
-    const secretId = uuid();
-    Secret.addOverride(secretId, {
-      entity: entityId,
-      value: {value: value},
-    });
+        try {
+            const { transaction_hash } = await execute(
+                signer,
+                "dojo_examples::actions::actions",
+                "set_secret",
+                [value]
+            );
 
-    try {
-      const { transaction_hash } = await execute(
-        signer,
-        "actions",
-        "setSecret",
-        [value]
-    );
-
-    setComponentsFromEvents(
-        contractComponents,
-        getEvents(
-            await signer.waitForTransaction(transaction_hash, {
-                retryInterval: 100,
-            })
-        )
-    );
-    console.log("secret set")
-    } catch (e) {
-      console.log(e);
-      Secret.removeOverride(secretId);
-    } finally {
-      Secret.removeOverride(secretId);
-    }
-  }
-
-    
+            setComponentsFromEvents(
+                contractComponents,
+                getEvents(
+                    await signer.waitForTransaction(transaction_hash, {
+                        retryInterval: 100,
+                    })
+                )
+            );
+        } catch (e) {
+            console.log(e);
+        } finally {
+        }
+    };
 
     return {
         spawn,
-        setSecret
+        set_secret,
     };
 }

@@ -1,21 +1,22 @@
-import { useComponentValue} from "@dojoengine/react";
+import { useComponentValue } from "@dojoengine/react";
 import { Entity } from "@dojoengine/recs";
+import { useEffect, useState } from "react";
 import { useDojo } from "./DojoContext";
-import { Suspense } from "react";
 import { getEntityIdFromKeys } from "@dojoengine/utils";
 
 import { Canvas } from "@react-three/fiber";
 import { Physics} from "@react-three/rapier";
+import { Suspense } from "react";
 
 import Burners from "./components/Burners";
 import AccRender from "./components/AccRender";
 import Scene from "./components/Scene";
+
 function App() {
     const {
         setup: {
-            systemCalls: { spawn, setSecret},
-            components: { Secret, Piece, Player, Game, Square },
-            network
+            systemCalls: { spawn, set_secret },
+            components: { Secret },
         },
         account: {
             create,
@@ -24,6 +25,8 @@ function App() {
             account,
             isDeploying,
             clear,
+            copyToClipboard,
+            applyFromClipboard,
         },
     } = useDojo();
 
@@ -33,15 +36,12 @@ function App() {
     // get current component values
     const secret = useComponentValue(Secret, entityId);
 
-    // sync from remote torii
-    //useSync(torii_client, SecretContract, [BigInt(account.address)]);
-
-    return(
+    return (
         <>
-        <Canvas style={{height:800, width:800}}camera={{rotation:[0,0,0], position:[0,10,30] }}>
+            <Canvas style={{height:800, width:800}}camera={{rotation:[0,0,0], position:[0,10,30] }}>
             <Suspense>
-            <Physics debug gravity={[0,-10,0]}>
-                <Scene account={account} setSecret={setSecret} spawn={spawn}/>
+            <Physics gravity={[0,-10,0]}>
+                <Scene account={account} set_secret={set_secret} spawn={spawn}/>
                 
                 <Burners coords={[0,15,20]} create={create} list={list} select={select} clear={clear}/>
                 
