@@ -14,7 +14,7 @@ const Board: FC<BoardProps> = ({coords, squareStates=defaultState}) => {
         let drawX = coords[0] + (index % 3) * 5
         let drawZ = coords[2] + (Math.floor(index/3)) * 5
         return(
-            <Square coords={[drawX, coords[1], drawZ]} state={square}/>
+            <Square key={index} coords={[drawX, coords[1], drawZ]} state={square}/>
         )
 
     });

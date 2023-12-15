@@ -16,6 +16,7 @@ export function createSystemCalls(
     { Secret }: ClientComponents
 ) {
     const spawn = async (signer: Account) => {
+
         const entityId = getEntityIdFromKeys([
             BigInt(signer.address),
         ]) as Entity;
@@ -46,8 +47,6 @@ export function createSystemCalls(
             BigInt(signer.address),
         ]) as Entity;
 
-        
-
         try {
             const { transaction_hash } = await execute(
                 signer,
@@ -66,8 +65,7 @@ export function createSystemCalls(
             );
         } catch (e) {
             console.log(e);
-        } finally {
-        }
+        } 
     };
 
     return {

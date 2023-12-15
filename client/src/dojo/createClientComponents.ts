@@ -8,6 +8,6 @@ export function createClientComponents({
 }: SetupNetworkResult) {
     return {
         ...contractComponents,
-        Secret: overridableComponent(contractComponents.Secret)
+        Secret: overridableComponent(contractComponents.Secret),
     };
 }
